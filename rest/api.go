@@ -193,7 +193,7 @@ func (api *RESTInterface) Fetch(w http.ResponseWriter, r *http.Request) {
 		},
 	)
 
-	if err != nil && err == database.SignatureNotFound {
+	if err != nil && errors.Is(err, database.SignatureNotFound) {
 		w.WriteHeader(http.StatusNotFound)
 		enc.Encode(ErrorResponse{
 			Message: "not found",
