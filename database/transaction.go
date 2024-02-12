@@ -14,7 +14,7 @@ type TransactionManager interface {
 const TX_KEY = "tx"
 
 func getTransaction(ctx context.Context) *sql.Tx {
-	return *(ctx.Value(TX_KEY).(**sql.Tx))
+	return ctx.Value(TX_KEY).(*sql.Tx)
 }
 
 type TransactionManagerImpl struct {
@@ -27,7 +27,7 @@ func NewTransactionManager(db *sql.DB) TransactionManager {
 
 func (tm TransactionManagerImpl) Begin(ctx context.Context) (context.Context, error) {
 	tx, err := tm.db.Begin()
-	ctx = context.WithValue(ctx, TX_KEY, &tx)
+	ctx = context.WithValue(ctx, TX_KEY, tx)
 	return ctx, err
 }
 
