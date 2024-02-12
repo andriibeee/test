@@ -92,7 +92,7 @@ func (api *RESTInterface) Sign(w http.ResponseWriter, r *http.Request) {
 	enc := json.NewEncoder(w)
 
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		w.WriteHeader(http.StatusBadRequest)
 		enc.Encode(ErrorResponse{
 			Message: err.Error(),
 		})
