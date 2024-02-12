@@ -178,7 +178,7 @@ func (api *RESTInterface) Fetch(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	signature, err := uuid.Parse(vars["signature"])
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		w.WriteHeader(http.StatusBadRequest)
 		enc.Encode(ErrorResponse{
 			Message: err.Error(),
 		})
