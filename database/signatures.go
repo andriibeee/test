@@ -69,7 +69,9 @@ func (service SignaturesServiceImpl) Get(ctx context.Context, id uuid.UUID) (*en
 		&timestamp,
 	)
 
-	if err != nil {
+	if err != nil && errors.Is(err, sql.ErrNoRows) {
+		return nil, SignatureNotFound
+	} else if err != nil {
 		return nil, err
 	}
 

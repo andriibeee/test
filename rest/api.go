@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/andriibeee/task/commands"
+	"github.com/andriibeee/task/database"
 	"github.com/andriibeee/task/entities"
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt"
@@ -192,7 +193,13 @@ func (api *RESTInterface) Fetch(w http.ResponseWriter, r *http.Request) {
 		},
 	)
 
-	if err != nil {
+	if err != nil && err == database.SignatureNotFound {
+		w.WriteHeader(http.StatusNotFound)
+		enc.Encode(ErrorResponse{
+			Message: "not found",
+		})
+		return
+	} else if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		enc.Encode(ErrorResponse{
 			Message: err.Error(),
