@@ -1,5 +1,5 @@
 
-# Example json for signing (POST /sign)
+# Example json for signing (POST /signature)
 
 ```js
 [
